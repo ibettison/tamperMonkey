@@ -2,7 +2,7 @@
 // @name         setUpButtons
 // @namespace    http://tampermonkey.net/
 // @version      0.1
-// @require       http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js
+// @require       http://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js
 // @description  setup the button to use when creating a new incident
 // @author       Ian Bettison
 // @match        https://nuservice.ncl.ac.uk/LDSD.WebAccess.Integrated/wd/object/create.rails?class_name=IncidentManagement*
@@ -13,67 +13,67 @@
 /* jshint -W097 */
 'use strict';
 
-/**
-* @function
-* @property {object} jQuery plugin which runs handler function once specified element is inserted into the DOM
-* @param {function} handler A function to execute at the time when the element is inserted
-* @param {bool} shouldRunHandlerOnce Optional: if true, handler is unbound after its first invocation
-* @example $(selector).waitUntilExists(function);
-*/
-
 $(document).ready(function() {
     /*setup global variables*/
-    var summaryArray = [];
-    var detailArray = [];
+    var summaryArray            = [];
+    var detailArray             = [];
     /*get existing canned answers*/
-    var summaryCAs = GM_getValue ("summary", "");
-    var detailCAs = GM_getValue("detail", "");
+    var summaryCAs              = GM_getValue ("summary", "");
+    var detailCAs               = GM_getValue("detail", "");
     
     /*setup temporary holding variables for the canned Answers*/
     if (summaryCAs) {
         /*convert string to array*/
-        summaryArray = JSON.parse (summaryCAs);
+        summaryArray            = JSON.parse (summaryCAs);
     }
     
     if (detailCAs) {
         /*convert string to array*/
-        detailArray = JSON.parse (detailCAs);
+        detailArray             = JSON.parse (detailCAs);
     }
     
     /*default values for new incident creation */
     var raisedUser = "nib8";
-    var raisedUserFull = "Ian Bettison";
-    var location = "Clinical Platforms";
-    var impact = "Low";
-    var urgency = "Low";
-    var level1Category = "Non-Central IT";
-    var level2Category = "Non-IT Service Related incident";
-    var linkToLanSweeper = "http://crf-psrv:81/user.aspx?username=<<userName>>&userdomain=CAMPUS";
+    var raisedUserFull          = "Ian Bettison";
+    var location                = "Clinical Platforms";
+    var impact                  = "Low";
+    var urgency                 = "Low";
+    var responseLevel           = "Priority 4 - Low";
+    var suggestedGroup          = "FMS IT SUPPORT";
+    var ticketSource            = "Email";
+    var linkToLanSweeper        = "http://crf-psrv:81/user.aspx?username=<<userName>>&userdomain=CAMPUS";
     /*variables for the signOff signature*/
-    var FMSLocation = "Clinical Platforms";
-    var FMSTelephone = "T: 0191 20 81271";
-    var FMSEmail = "E: ian.bettison@ncl.ac.uk";
-    var signOff = "\n\nThanks for your attention,\n\n"+raisedUserFull+"\n\n"+FMSLocation+"\n\n"+FMSTelephone+"\n"+FMSEmail+"\n";
+    var FMSLocation             = "Clinical Platforms";
+    var FMSTelephone            = "T: 0191 20 81271";
+    var FMSEmail                = "E: ian.bettison@ncl.ac.uk";
+    var signOff                 = "\n\nThanks for your attention,\n\n"+raisedUserFull+"\n"+FMSLocation+"\n"+FMSTelephone+"\n"+FMSEmail+"\n";
 
     /*setup the default responses to your canned answers here*/
-    var cannedAnswersSummary = ["Wireless Access Required",
-                                "Profile Reset",
-                                "Rebuild PC",
-                                "Folder Access",
-                                "Apply Group Policy",
+    var cannedAnswersSummary    = ["Wireless Access Required",
+                                "Wireless Access Patient Request",
+                                "New User Access",
+                                "Software Installation",
                                 "Hardware Quotation"];
-    var cannedAnswersDetail  = ["Please can I make a request for wireless access for a monitor who is visiting the {unitName} unit on {AddDate}.\n\n" + 
-                                "They will be attending the unit for {noDays} day(s).The monitor's name is {monitorName}",
-                               "I am having issues with my profile.",
-                               "I have taken a look at {customerName}'s PC and it requires a rebuild.",
-                               "Please can you provide access to the following list of {users}. They will need access to the following list of Folders.\n\n"+
-                               "{folder list}",
-                               "A request has been made for the installation of a group policy which will allow for the installation\setup of {policyOption}",
-                               "Please will you provide a quotation for the purchase of IT equipment. The equipment required is as follows: \n\n{EquipmentList}"];
-    
+    var cannedAnswersDetail     = ["Please can I make a request for wireless access for a monitor who is visiting the {unitName} unit on {AddDate}.\n\n" + 
+                                "They will be attending the unit for {noDays} day(s).The monitor's name is {monitorName}" + signOff,
+                                "Please can I make a request for wireless access for a patient visiting the {unitName} unit on {AddDate} and will require access for {n} day(s)."+signOff,
+                                "Please can you provide access for the following new user {name}. \n\nThey will require the same access as the {groupName}."+signOff,
+                                "I would like to make a request for a software Installation. The software I require installing is {SoftwarePackage}.\n\n"+
+                                "The package is to be installed on {My Current Computer Name} / {Another computer name} / {List of Computer Names}."+signOff,
+                                "Please will you provide a quotation for the purchase of IT equipment. The equipment required is as follows: \n\nUniversity Standard Desktop PC."+signOff];
+    var cannedAnswersCat1       = ["Access and Accounts",
+                                  "Access and Accounts",
+                                  "Filestore",
+                                  "Software",
+                                  "Hardware"];
+    var cannedAnswersCat2       = ["Guest Wireless",
+                                  "Guest Wireless",
+                                  "Shared Filestore",
+                                  "Software Installation",
+                                  "Desktop PC"];
     /*The buttons added to the incident page*/
     $('#contentHeader').append($('<span style="padding-top: 4px;"><input type="button" class="pushButton" id="setDefaultValues" value="Default">' +
-      ' Assign to Me:<input type="checkbox" class="pushButton" id="setAssignToMe" value=""> <select id="cannedAnswers" style="width: 250px;"><option>Select a canned Answer</option></select></span>' +
+      ' Assign to Me:<input type="checkbox" class="pushButton" id="setAssignToMe" value=""> <select id="cannedAnswers" style="width: 200px;"><option disabled>Select a canned Answer</option></select></span>' +
                                ' Resolve on Creation:<input type="checkbox" class="pushButton" id="setResolve" value="">' +
                                 '<input type="button" class="pushButton" id="addCannedAnswer" value="New Canned Answer ^">&nbsp;'));
     
@@ -84,6 +84,11 @@ $(document).ready(function() {
             text: cannedAnswersSummary[i]
         }));
     }
+    /* Add a class name to the option in the select sa that a chack for when they are clicked can be performed*/
+    $('#cannedAnswers option').each(function() {
+       $(this).addClass("ddOption"); 
+    });
+    
     
     /*if there are additional canned answers saved then add them*/
     if(summaryArray.length){
@@ -153,24 +158,27 @@ $(document).ready(function() {
     
     /*default button pressed so add the default values to the related fields*/
     $('#setDefaultValues').click(function() {
-        
+        $('#mainForm-_ImpactDisplay').trigger('click'); 
+        $('#mainForm-_IncidentUrgencyDisplay').trigger('click');
+        $('#mainForm-_SuggestedGroupDisplay').trigger('click');
+        $('#mainForm-_TicketSource1Display').trigger('click');
+        $(this).clickDefault(impact, '#mainForm-_ImpactDisplay', '#mainForm-_Impact-Dropdown');     
+        $(this).clickDefault(urgency, '#mainForm-_IncidentUrgencyDisplay', '#mainForm-_IncidentUrgency-Dropdown');       
+        $('#mainForm-_Location').val(location);        
+        $(this).clickDefault(suggestedGroup, '#mainForm-_SuggestedGroupDisplay', '#mainForm-_SuggestedGroup-Dropdown');        
+        $(this).clickDefault(ticketSource,'#mainForm-_TicketSource1Display','#mainForm-_TicketSource1-Dropdown'); 
+        $('#mainForm-ResponseLevelTitleDisplay').trigger('click');       
+        $(this).clickDefault(responseLevel, '#mainForm-ResponseLevelTitleDisplay', '#mainForm-ResponseLevelTitle-Dropdown');
         $('#mainForm-RaiseUserTitleDisplay').val(raisedUser);
-        $('#mainForm-_IncidentCategoryLevel11Display').trigger('click');
-        var level1 = $("div.dropdownItem:contains('" + level1Category + "')").attr("value");
-        console.log(level1);
-        $('#mainForm-_IncidentCategoryLevel11Display').val(level1Category);
-        $('#mainForm-_IncidentCategoryLevel11Display-Dropdown').val(level1);
-        
-        $('#mainForm-_IncidentCategoryLevel21Display').trigger('click');
-        var level2 = $("div.dropdownItem:contains('" + level2Category + "')").attr("value");
-        console.log(level2);
-        $('#mainForm-_IncidentCategoryLevel21Display').val(level2Category);
-        $('#mainForm-_IncidentCategoryLevel21Display-Dropdown').val(level2);
-        
-        $('#mainForm-_ImpactDisplay').val(impact);
-        $('#mainForm-_IncidentUrgencyDisplay').val(urgency);
-        $('#mainForm-_Location').val(location);
-    });
+        $('#mainForm-RaiseUserTitleDisplay').focus();
+  });
+    
+    $.fn.clickDefault = function(ddValue, displayDiv, dropdownDiv) {
+        $(dropdownDiv).find(".dropdownItem:contains('"+ddValue+"')").trigger('click');
+        var Value = $(dropdownDiv).find(".dropdownItem:contains('"+ddValue+"')").attr("value");                 
+        console.log(Value);
+        console.log(ddValue);    
+    }
     
     $('#setAssignToMe').click(function() {
         $('#mainForm-_AssignToMe').trigger('click');
@@ -185,6 +193,22 @@ $(document).ready(function() {
         var valueAns = $('#cannedAnswers option:selected').val();
         $('#mainForm-Description').val(valueAns);
         $('#mainForm-Title').val(textAns);
+        var Index = $('#cannedAnswers').prop('selectedIndex');
+        $('#mainForm-_IncidentCategoryLevel11Display').trigger('click');
+        $(this).clickDefault(cannedAnswersCat1[Index-1], "#mainForm-_IncidentCategoryLevel11Display", "#mainForm-_IncidentCategoryLevel11-Dropdown");
+        $('#mainForm-_IncidentCategoryLevel21Display').trigger('click');
+        $(this).clickDefault(cannedAnswersCat2[Index-1],"#mainForm-_IncidentCategoryLevel21Display", "#mainForm-_IncidentCategoryLevel21-Dropdown");                
+    });
+    
+    $('#cannedAnswers').click(function() { 
+        var Index = $('#cannedAnswers').prop('selectedIndex');
+        console.log(Index);
+        if(Index !== 0){
+            $('#mainForm-_IncidentCategoryLevel11Display').trigger('click');
+            $(this).clickDefault(cannedAnswersCat1[Index-1], "#mainForm-_IncidentCategoryLevel11Display", "#mainForm-_IncidentCategoryLevel11-Dropdown");
+            $('#mainForm-_IncidentCategoryLevel21Display').trigger('click');
+            $(this).clickDefault(cannedAnswersCat2[Index-1],"#mainForm-_IncidentCategoryLevel21Display", "#mainForm-_IncidentCategoryLevel21-Dropdown"); 
+        }
     });
     
     /*prevent the right click context menu displaying when clicking the button*/

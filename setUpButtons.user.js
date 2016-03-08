@@ -17,9 +17,14 @@ $(document).ready(function() {
     /*setup global variables*/
     var summaryArray            = [];
     var detailArray             = [];
+    var category1Array          = [];
+    var category2Array          = [];
+    
     /*get existing canned answers*/
     var summaryCAs              = GM_getValue ("summary", "");
     var detailCAs               = GM_getValue("detail", "");
+    var cat1CAs                 = GM_getValue("category1", "");
+    var cat2CAs                 = GM_getValue("category2", "");
     
     /*setup temporary holding variables for the canned Answers*/
     if (summaryCAs) {
@@ -32,6 +37,17 @@ $(document).ready(function() {
         detailArray             = JSON.parse (detailCAs);
     }
     
+    if (cat1CAs) {
+        /*convert string to array*/
+        category1Array          = JSON.parse (cat1CAs);
+    }
+    
+    if (cat2CAs) {
+        /*convert string to array*/
+        category2Array          = JSON.parse (cat2CAs);
+    }
+    console.log(category1Array);
+    console.log(category2Array);
     /*default values for new incident creation */
     var raisedUser = "nib8";
     var raisedUserFull          = "Ian Bettison";
@@ -101,6 +117,22 @@ $(document).ready(function() {
         }
     }
     
+    /*if there are additional canned answers saved then add them*/
+    if(category1Array.length){
+        /*add the values from the additional canned answers */
+        for (var i=0;i<category1Array.length;i++){
+           cannedAnswersCat1.push(category1Array[i]); 
+        }
+    }
+    
+    /*if there are additional canned answers saved then add them*/
+    if(category2Array.length){
+        /*add the values from the additional canned answers */
+        for (var i=0;i<category2Array.length;i++){
+           cannedAnswersCat2.push(category2Array[i]); 
+        }
+    }
+    
     $.fn.createAddDiv = function() {
         /*create hidden div to show when add new canned button is pressed*/
         $('<div/>',{
@@ -112,10 +144,14 @@ $(document).ready(function() {
                 width: '350px',
                 padding: '0px 4px'
             },
-            html: '<div class="groupBoxHeader">Add new canned Answer</div><div class="groupBoxContent" style="background-color: rgb(230,231,232); padding: 4px; min-height: 160px;">' +
-            '<div style="padding: 2px 4px;"><input class="textField" style="width: 90%; padding: 2px 4px;" type="text" id="addCannedSummary" placeholder="Canned Summary" />' +
-            '</div><div style="padding: 2px 4px;"><textarea style="width: 90%; height: 80px; padding: 2px 4px;" id="addCannedDetail" placeholder="Canned Detail"></textarea></div>' +
-            '<div style="padding: 0 9px;"><input type="button" class="pushButton" id="saveCannedAnswer" value="save"> &lt;&lt;Add Signature&gt;&gt> adds your signature.</div><div id="messageArea" style="padding: 0 9px; color: blue; display: none;">Saved</div></div>'
+            html: '<div class="groupBoxHeader">Add new canned Answer</div><div class="groupBoxContent" style="background-color: rgb(230,231,232); padding: 4px; min-height: 190px;">' +
+            '<div style="padding: 2px 4px;"><input class="textField" style="width: 90%; padding: 2px 4px;" type="text" id="addCannedSummary" placeholder="Canned Summary" /></div>' +
+            '<div style="padding: 2px 4px;"><textarea style="width: 90%; height: 80px; padding: 2px 4px;" id="addCannedDetail" placeholder="Canned Detail"></textarea></div>' +
+            '<div style="padding: 2px 4px;"><input class="textField" style="width: 90%; padding: 2px 4px;" type="text" id="addCannedCat1" placeholder="Incident Category Level 1" /></div>' +
+            '<div style="padding: 2px 4px;"><input class="textField" style="width: 90%; padding: 2px 4px;" type="text" id="addCannedCat2" placeholder="Incident Category Level 2" /></div>' +
+            '<div style="padding: 0 9px;"><input type="button" class="pushButton" id="saveCannedAnswer" value="Save"> <input type="button" class="pushButton" id="copyCannedAnswer" value="Copy">' + 
+            '&lt;&lt;Add Signature&gt;&gt></div>' +
+            '<div id="messageArea" style="padding: 0 9px; color: blue; display: none;">Saved</div></div>'
         }).appendTo('#contentHeader');
         return true;
     }
@@ -247,16 +283,24 @@ $(document).ready(function() {
            $('#addCannedDetail').val($('#addCannedDetail').val().replace('<<Add Signature>>', signOff));
            summaryArray.push($('#addCannedSummary').val());
            detailArray.push($('#addCannedDetail').val());
+           category1Array.push($('#addCannedCat1').val());
+           category2Array.push($('#addCannedCat2').val());
            console.log(summaryArray);
            console.log(detailArray);
+           console.log(category1Array);
+           console.log(category1Array);
            GM_setValue("summary", JSON.stringify(summaryArray));
-           GM_setValue("detail", JSON.stringify(detailArray));         
+           GM_setValue("detail", JSON.stringify(detailArray)); 
+           GM_setValue("category1", JSON.stringify(category1Array));
+           GM_setValue("category2", JSON.stringify(category2Array));
            $('#cannedAnswers').append($('<option/>', {
                 value: $('#addCannedDetail').val(),
                 text: $('#addCannedSummary').val()
             }));
            $('#addCannedDetail').val("");
            $('#addCannedSummary').val("");
+           $('#addCannedCat1').val("");
+           $('#addCannedCat2').val("");
            var htmlForDiv = $(this).alterDelDiv(summaryArray);
            $('#divDelCannedAnswer').remove().html(htmlForDiv);
        }, 1000);
@@ -273,11 +317,15 @@ $(document).ready(function() {
            console.log(checked);
            if(checked.length) {
                /*save item descriptions to remove from array*/
-               var summaryDescription = [];
-               var detailDescription = [];
+               var summaryDescription   = [];
+               var detailDescription    = [];
+               var category1Description = [];
+               var category2Description = [];
                $.each(checked, function(index, item) {
                    summaryDescription.push(summaryArray[item]);
                    detailDescription.push(detailArray[item]);
+                   category1Description.push(category1Array[item]);
+                   category2Description.push(category2Array[item]);                           
                });
                $.each(summaryDescription, function(index, item) {
                    /*remove the element in the summaryArray array*/
@@ -288,12 +336,22 @@ $(document).ready(function() {
                    detailArray = detailArray.filter(function(list) {
                        return ( list !== detailDescription[index]);
                    });
+                   /*remove the element in the category1Array array*/
+                   category1Array = category1Array.filter(function(list) {
+                       return ( list !== category1Description[index]);
+                   });
+                   /*remove the element in the category2Array array*/
+                   category2Array = category2Array.filter(function(list) {
+                       return ( list !== category2Description[index]);
+                   });
                    /*remove the option from the dropdown list*/
                    alert(item);
                    $("#cannedAnswers option:contains('"+item+"')").remove();
                });
                GM_setValue("summary", JSON.stringify(summaryArray));
                GM_setValue("detail", JSON.stringify(detailArray));
+               GM_setValue("category1", JSON.stringify(category1Array));
+               GM_setValue("category2", JSON.stringify(category2Array));
            }
            $('#messageDelArea').fadeOut(1000);
            var htmlForDiv = $(this).alterDelDiv(summaryArray);

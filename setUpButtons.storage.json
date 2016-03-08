@@ -1,1 +1,1 @@
-{"data":{"detail":"s[]","machineName":"s","summary":"s[]"},"ts":1456393470595}
+{"data":{"clicks":"n3","detail":"s[\"Please can a policy be created for a new printer that is going to be connected to the {NewGroup}. This policy needs to apply to the following list of computers:\\n\\n{ListComputers}\\n\\nThanks for your attention,\\n\\nIan Bettison\\nClinical Platforms\\nT: 0191 20 81271\\nE: ian.bettison@ncl.ac.uk\\n\"]","machineName":"s","summary":"s[\"Create Printer policy\"]"},"ts":1457370047845}

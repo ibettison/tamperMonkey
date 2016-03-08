@@ -275,6 +275,13 @@ $(document).ready(function() {
         }
     });
     
+   $('#copyCannedAnswer').click(function() {
+       $("#addCannedSummary").val($("#mainForm-Title").val());
+       $("#addCannedDetail").val($("#mainForm-Description").val());
+       $("#addCannedCat1").val($("#mainForm-_IncidentCategoryLevel11Display").val());
+       $("#addCannedCat2").val($("#mainForm-_IncidentCategoryLevel21Display").val());
+   });
+    
    $('#saveCannedAnswer').click(function() {
        $('#messageArea').fadeIn(1000);
        setTimeout(function() {

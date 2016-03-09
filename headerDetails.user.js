@@ -1,13 +1,3 @@
-// ==UserScript==
-// @name         headerDetails
-// @namespace    http://tampermonkey.net/
-// @version      0.1
-// @description  standard details for each user
-// @author       Ian Bettison
-// @match        http://*/*
-// @grant        none
-// ==/UserScript==
-/* jshint -W097 */
     /*default values for new incident creation */
     var raisedUser              = "nib8";
     var raisedUserFull          = "Ian Bettison";

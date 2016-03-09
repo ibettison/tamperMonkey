@@ -2,9 +2,11 @@
 // @name         setUpButtons
 // @namespace    http://tampermonkey.net/
 // @version      0.1
-// @require       http://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js
-// @description  setup the button to use when creating a new incident
+// @require      http://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js
+// @description  when creating a new incident setup some buttons to help with the creation of the ticket. Allows default details to be entered and also canned answers\responses
 // @author       Ian Bettison
+// @update       https://github.com/ibettison/tamperMonkey/blob/master/setUpButtons.user.js
+// @download     https://github.com/ibettison/tamperMonkey/blob/master/setUpButtons.user.js
 // @match        https://nuservice.ncl.ac.uk/LDSD.WebAccess.Integrated/wd/object/create.rails?class_name=IncidentManagement*
 // @match        http://crf-psrv:81/user.aspx?username=*
 // @grant        GM_getValue
@@ -49,7 +51,7 @@ $(document).ready(function() {
     console.log(category1Array);
     console.log(category2Array);
     /*default values for new incident creation */
-    var raisedUser = "nib8";
+    var raisedUser              = "nib8";
     var raisedUserFull          = "Ian Bettison";
     var location                = "Clinical Platforms";
     var impact                  = "Low";
@@ -100,13 +102,13 @@ $(document).ready(function() {
             text: cannedAnswersSummary[i]
         }));
     }
-    /* Add a class name to the option in the select sa that a chack for when they are clicked can be performed*/
+    /* Add a class name to the option in the select sa that a chack for when they are clicked can be performed NOT USED
     $('#cannedAnswers option').each(function() {
        $(this).addClass("ddOption"); 
-    });
+    });*/
     
     
-    /*if there are additional canned answers saved then add them*/
+    /*if there are additional canned answers saved then add them to the drop down list*/
     if(summaryArray.length){
         /*add the values from the additional canned answers */
         for (var i=0;i<summaryArray.length;i++){

@@ -1,11 +1,7 @@
 // ==UserScript==
 // @name         setUpButtons
 // @namespace    http://tampermonkey.net/
-<<<<<<< HEAD
 // @version      0.6
-=======
-// @version      0.5
->>>>>>> origin/master
 // @require      http://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js
 // @description  when creating a new incident setup some buttons to help with the creation of the ticket. Allows default details to be entered and also canned answers\responses
 // @author       Ian Bettison

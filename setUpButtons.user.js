@@ -5,8 +5,8 @@
 // @require      http://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js
 // @description  when creating a new incident setup some buttons to help with the creation of the ticket. Allows default details to be entered and also canned answers\responses
 // @author       Ian Bettison
-// @updateURL    https://github.com/ibettison/tamperMonkey/blob/master/setUpButtons.user.js
-// @downloadURL  https://github.com/ibettison/tamperMonkey/blob/master/setUpButtons.user.js
+// @updateURL    https://raw.githubusercontent.com/ibettison/tamperMonkey/master/setUpButtons.user.js
+// @downloadURL  https://raw.githubusercontent.com/ibettison/tamperMonkey/master/setUpButtons.user.js
 // @match        https://nuservice.ncl.ac.uk/LDSD.WebAccess.Integrated/wd/object/create.rails?class_name=IncidentManagement*
 // @match        http://crf-psrv:81/user.aspx?username=*
 // @grant        GM_getValue

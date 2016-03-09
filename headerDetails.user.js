@@ -8,8 +8,6 @@
 // @grant        none
 // ==/UserScript==
 /* jshint -W097 */
-'use strict';
-
     /*default values for new incident creation */
     var raisedUser              = "nib8";
     var raisedUserFull          = "Ian Bettison";

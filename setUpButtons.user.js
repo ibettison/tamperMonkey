@@ -1,11 +1,19 @@
 // ==UserScript==
 // @name         setUpButtons
 // @namespace    http://tampermonkey.net/
+<<<<<<< HEAD
 // @version      0.1
 // @require      http://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js
 // @description  when creating a new incident setup some buttons to help with the creation of the ticket. Allows default details to be entered and also canned answers\responses
 // @author       Ian Bettison
 // @updateURL    https://github.com/ibettison/tamperMonkey/blob/master/setUpButtons.user.js 
+=======
+// @version      0.3
+// @require      http://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js
+// @description  when creating a new incident setup some buttons to help with the creation of the ticket. Allows default details to be entered and also canned answers\responses
+// @author       Ian Bettison
+// @updateURL    https://github.com/ibettison/tamperMonkey/blob/master/setUpButtons.user.js
+>>>>>>> origin/master
 // @downloadURL  https://github.com/ibettison/tamperMonkey/blob/master/setUpButtons.user.js
 // @match        https://nuservice.ncl.ac.uk/LDSD.WebAccess.Integrated/wd/object/create.rails?class_name=IncidentManagement*
 // @match        http://crf-psrv:81/user.aspx?username=*

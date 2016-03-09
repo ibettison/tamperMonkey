@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name         setUpButtons
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.6
 // @require      http://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js
 // @description  when creating a new incident setup some buttons to help with the creation of the ticket. Allows default details to be entered and also canned answers\responses
 // @author       Ian Bettison
-// @updateURL    https://github.com/ibettison/tamperMonkey/blob/master/setUpButtons.user.js
-// @downloadURL  https://github.com/ibettison/tamperMonkey/blob/master/setUpButtons.user.js
+// @updateURL    https://raw.githubusercontent.com/ibettison/tamperMonkey/master/setUpButtons.user.js
+// @downloadURL  https://raw.githubusercontent.com/ibettison/tamperMonkey/master/setUpButtons.user.js
 // @match        https://nuservice.ncl.ac.uk/LDSD.WebAccess.Integrated/wd/object/create.rails?class_name=IncidentManagement*
 // @match        http://crf-psrv:81/user.aspx?username=*
 // @grant        GM_getValue
@@ -176,7 +176,7 @@ $(document).ready(function() {
                 padding: '0px 4px'
             },
             html: "<div class='groupBoxHeader'>Delete canned Answer</div><div class='groupBoxContent' style='background-color: rgb(230,231,232); padding: 4px; min-height: 160px;'>" +
-            "<div id='delContent' style='padding: 2px 4px;'>" + deleteCanned + "</div><div style='padding: 4px 9px;'><strong>Select the answers to delete</strong></div>" +
+            "<div id='delContentWrapper'><div id='delContent' style='padding: 2px 4px;'>" + deleteCanned + "</div></div><div style='padding: 4px 9px;'><strong>Select the answers to delete</strong></div>" +
             "<div style='padding: 0 9px;'><input type='button' class='pushButton' id='deleteCannedAnswer' value='delete'>" +
             "</div><div id='messageDelArea' style='padding: 0 9px; color: blue; display: none;'>Deleted</div></div>"
         }).appendTo('#contentHeader');
@@ -186,11 +186,11 @@ $(document).ready(function() {
     
     $.fn.alterDelDiv = function(listOfAnswers) {
         /*setup the partial html for the deletion of a canned answer*/
-        var deleteCanned = "";
+        var deleteCanned = "<div id='delContent' style='padding: 2px 4px;'>";
         $.each(listOfAnswers, function(index, item) {
             deleteCanned += "<input type='checkbox' class='delCannedClass' id='del"+index+"' value='"+index+"'> " + item.substring(0, 35)+"<BR/>";
         });
-        
+        deleteCanned += "</div>";
         return deleteCanned;
     }
     
@@ -218,27 +218,38 @@ $(document).ready(function() {
         console.log(ddValue);    
     }
     
+    /*toggle the click of the Assign to me checkbox*/
     $('#setAssignToMe').click(function() {
         $('#mainForm-_AssignToMe').trigger('click');
     });
     
+    /*toggle the click of the Resolve on creation checkbox*/
     $('#setResolve').click(function() {
         $('#mainForm-_ResolveOnCreation').trigger('click');
     });
     
+    /*When the selection is made in the canned answers drop down*/
     $('#cannedAnswers').change(function() {
+        //get the text and the value from the dropdown list
         var textAns = $('#cannedAnswers option:selected').text();
         var valueAns = $('#cannedAnswers option:selected').val();
+        //set the values of the fields equal to the drop down canned answers
         $('#mainForm-Description').val(valueAns);
         $('#mainForm-Title').val(textAns);
+        // get the value of the index of the selected dropdown
         var Index = $('#cannedAnswers').prop('selectedIndex');
+        //force a click on the Category level 1 Display to force a population of the dropdown div
         $('#mainForm-_IncidentCategoryLevel11Display').trigger('click');
+        //send the canned answer and dropdown identifier and populate the value by simulating a click on the dropdown
         $(this).clickDefault(cannedAnswersCat1[Index-1], "#mainForm-_IncidentCategoryLevel11Display", "#mainForm-_IncidentCategoryLevel11-Dropdown");
+        //force a click on the Category level 2 Display to force a population of the dropdown div
         $('#mainForm-_IncidentCategoryLevel21Display').trigger('click');
+        //send the canned answer and dropdown identifier and populate the value by simulating a click on the dropdown
         $(this).clickDefault(cannedAnswersCat2[Index-1],"#mainForm-_IncidentCategoryLevel21Display", "#mainForm-_IncidentCategoryLevel21-Dropdown");                
     });
     
     $('#cannedAnswers').click(function() { 
+        //continue the function until all fields are populated.
         var Index = $('#cannedAnswers').prop('selectedIndex');
         console.log(Index);
         if(Index !== 0){
@@ -257,6 +268,7 @@ $(document).ready(function() {
     /*check right click on addCannedAnswer button*/
     $('#addCannedAnswer').mousedown(function(event) {
         switch (event.which) {
+            //left click of the button
             case 1:
                 if($('#addCannedAnswer').val() == "New Canned Answer ^") {
                     $('#divCannedAnswer').slideToggle('slow');
@@ -265,6 +277,7 @@ $(document).ready(function() {
                     $('#divDelCannedAnswer').slideToggle('slow');
                 }
                 break;
+            // right click of the button
             case 3:
                 if($('#addCannedAnswer').val() == 'New Canned Answer ^') {
                     $('#addCannedAnswer').val("Del Canned Answer ^");
@@ -276,20 +289,24 @@ $(document).ready(function() {
                 alert('You have a strange Mouse!');
         }
     });
-    
+   
+   /* copy the values that have been typed into the form and copy them to the canned answers form
+      the values can then be saved as a canned answer */
    $('#copyCannedAnswer').click(function() {
        $("#addCannedSummary").val($("#mainForm-Title").val());
        $("#addCannedDetail").val($("#mainForm-Description").val());
        $("#addCannedCat1").val($("#mainForm-_IncidentCategoryLevel11Display").val());
        $("#addCannedCat2").val($("#mainForm-_IncidentCategoryLevel21Display").val());
    });
-    
+   
+   /* save the canned answer and also add the new canned answer to the dropdown box.*/
    $('#saveCannedAnswer').click(function() {
        $('#messageArea').fadeIn(1000);
        setTimeout(function() {
            $('#messageArea').fadeOut(1000);
            /*check if the signature is required*/
            $('#addCannedDetail').val($('#addCannedDetail').val().replace('<<Add Signature>>', signOff));
+           //add the values and categories to the value monitoring arrays
            summaryArray.push($('#addCannedSummary').val());
            detailArray.push($('#addCannedDetail').val());
            category1Array.push($('#addCannedCat1').val());
@@ -298,20 +315,25 @@ $(document).ready(function() {
            console.log(detailArray);
            console.log(category1Array);
            console.log(category1Array);
+           //set the global variables to the new array values
            GM_setValue("summary", JSON.stringify(summaryArray));
            GM_setValue("detail", JSON.stringify(detailArray)); 
            GM_setValue("category1", JSON.stringify(category1Array));
            GM_setValue("category2", JSON.stringify(category2Array));
+           //add the new values to the drop down list
            $('#cannedAnswers').append($('<option/>', {
                 value: $('#addCannedDetail').val(),
                 text: $('#addCannedSummary').val()
             }));
+           //reset the values in the canned answers form
            $('#addCannedDetail').val("");
            $('#addCannedSummary').val("");
            $('#addCannedCat1').val("");
            $('#addCannedCat2').val("");
+           //add the new canned answer to the delete option on the delete div
            var htmlForDiv = $(this).alterDelDiv(summaryArray);
-           $('#divDelCannedAnswer').remove().html(htmlForDiv);
+           $('#delContent').remove();
+           $('#delContentWrapper').html(htmlForDiv);
        }, 1000);
        
    });

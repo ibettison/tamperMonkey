@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         setUpButtons
 // @namespace    http://tampermonkey.net/
-// @version      0.8
+// @version      0.9
 // @require      http://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js
 // the below link is the default details contained in a hosted file. 
 // @require      https://raw.githubusercontent.com/ibettison/tamperMonkey/master/headerDetails.user.js
@@ -51,6 +51,8 @@ $(document).ready(function() {
         var Machine             = mF+"_MachineName";
         var TicketSource        = mF+"_TicketSource1";
         var classFind           = ".dropdownItem";
+        var placeHolder1        = "Incident Category 1";
+        var placeHolder2        = "Incident Category 2";
     }else if($(mF+"RaiseUser2"+sFix1).length) {
         var RaiseUser           = mF+"RaiseUser2";
         var Details             = mF+"Description2";
@@ -64,6 +66,8 @@ $(document).ready(function() {
         var Machine             = mF+"_MachineName";
         var TicketSource        = mF+"_TicketSource1";
         var classFind           = ".treeLabel";
+        var placeHolder1        = "Request Type";
+        var placeHolder2        = "Service Item";
     }
 
     /*setup temporary holding variables for the canned Answers*/
@@ -144,8 +148,8 @@ $(document).ready(function() {
             html: '<div class="groupBoxHeader">Add new canned Answer</div><div class="groupBoxContent" style="background-color: rgb(230,231,232); padding: 4px; min-height: 190px;">' +
             '<div style="padding: 2px 4px;"><input class="textField" style="width: 90%; padding: 2px 4px;" type="text" id="addCannedSummary" placeholder="Canned Summary" /></div>' +
             '<div style="padding: 2px 4px;"><textarea style="width: 90%; height: 80px; padding: 2px 4px;" id="addCannedDetail" placeholder="Canned Detail"></textarea></div>' +
-            '<div style="padding: 2px 4px;"><input class="textField" style="width: 90%; padding: 2px 4px;" type="text" id="addCannedCat1" placeholder="Incident Category Level 1" /></div>' +
-            '<div style="padding: 2px 4px;"><input class="textField" style="width: 90%; padding: 2px 4px;" type="text" id="addCannedCat2" placeholder="Incident Category Level 2" /></div>' +
+            '<div style="padding: 2px 4px;"><input class="textField" style="width: 90%; padding: 2px 4px;" type="text" id="addCannedCat1" placeholder="'+placeHolder1+'" /></div>' +
+            '<div style="padding: 2px 4px;"><input class="textField" style="width: 90%; padding: 2px 4px;" type="text" id="addCannedCat2" placeholder="'+placeHolder2+'" /></div>' +
             '<div style="padding: 0 9px;"><input type="button" class="pushButton" id="saveCannedAnswer" value="Save"> <input type="button" class="pushButton" id="copyCannedAnswer" value="Copy">' + 
             '&lt;&lt;Add Signature&gt;&gt></div>' +
             '<div id="messageArea" style="padding: 0 9px; color: blue; display: none;">Saved</div></div>'

@@ -15,11 +15,11 @@
     var signOff                 = "\n\nThanks for your attention,\n\n"+raisedUserFull+"\n"+FMSLocation+"\n"+FMSTelephone+"\n"+FMSEmail+"\n";
 
     /*setup the default responses to your canned answers here*/
-    var cannedAnswersSummary    = ["Wireless Access Required",
-                                "Wireless Access Patient Request",
-                                "New User Access",
-                                "Software Installation",
-                                "Hardware Quotation"];
+    var cannedAnswersSummary    = ["IN:Wireless Access Required",
+                                "IN:Wireless Access Patient Request",
+                                "IN:New User Access",
+                                "IN:Software Installation",
+                                "IN:Hardware Quotation"];
     var cannedAnswersDetail     = ["Please can I make a request for wireless access for a monitor who is visiting the {unitName} unit on {AddDate}.\n\n" + 
                                 "They will be attending the unit for {noDays} day(s).The monitor's name is {monitorName}" + signOff,
                                 "Please can I make a request for wireless access for a patient visiting the {unitName} unit on {AddDate} and will require access for {n} day(s)."+signOff,

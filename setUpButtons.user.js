@@ -1,14 +1,16 @@
 // ==UserScript==
 // @name         setUpButtons
 // @namespace    http://tampermonkey.net/
-// @version      0.7
+// @version      0.8
 // @require      http://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js
+// the below link is the default details contained in a hosted file. 
 // @require      https://raw.githubusercontent.com/ibettison/tamperMonkey/master/headerDetails.user.js
-// @description  when creating a new incident setup some buttons to help with the creation of the ticket. Allows default details to be entered and also canned answers\responses
+// @description  when creating a new incident or Service request setup some buttons to help with the creation of the ticket. Allows default details to be entered and also canned answers\responses
 // @author       Ian Bettison
 // @updateURL    https://raw.githubusercontent.com/ibettison/tamperMonkey/master/setUpButtons.user.js
 // @downloadURL  https://raw.githubusercontent.com/ibettison/tamperMonkey/master/setUpButtons.user.js
 // @match        https://nuservice.ncl.ac.uk/LDSD.WebAccess.Integrated/wd/object/create.rails?class_name=IncidentManagement*
+// @match        https://nuservice.ncl.ac.uk/LDSD.WebAccess.Integrated/wd/object/create.rails?class_name=RequestManagement*
 // @match        http://crf-psrv:81/user.aspx?username=*
 // @grant        GM_getValue
 // @grant        GM_setValue
@@ -29,6 +31,41 @@ $(document).ready(function() {
     var cat1CAs                 = GM_getValue("category1", "");
     var cat2CAs                 = GM_getValue("category2", "");
     
+    /*this is the prefix and suffixes for all of the fieldnames this script deals with*/
+    var mF                      = "#mainForm-";
+    var sFix1                   = "Display";
+    var sFix2                   = "-Dropdown";
+    /*lets determine which page view has been selected
+    the Raised User has a different fieldname in the different
+    views and it makes sense to test for this*/
+    if($(mF+"RaiseUserTitle"+sFix1).length){
+        var RaiseUser           = mF+"RaiseUserTitle";
+        var Details             = mF+"Description";
+        var Summary             = mF+"Title";
+        var Option1             = mF+"_IncidentCategoryLevel11";
+        var Option2             = mF+"_IncidentCategoryLevel21";
+        var Impact              = mF+"_Impact";
+        var Urgency             = mF+"_IncidentUrgency";
+        var ResponseLevel       = mF+"ResponseLevelTitle";
+        var Location            = mF+"_Location";
+        var Machine             = mF+"_MachineName";
+        var TicketSource        = mF+"_TicketSource1";
+        var classFind           = ".dropdownItem";
+    }else if($(mF+"RaiseUser2"+sFix1).length) {
+        var RaiseUser           = mF+"RaiseUser2";
+        var Details             = mF+"Description2";
+        var Summary             = mF+"Title4";
+        var Option1             = mF+"_CatalogueHierarchy";
+        var Option2             = mF+"_ConfigItemRequested4";
+        var Impact              = mF+"_Impact";
+        var Urgency             = mF+"_Urgency";
+        var ResponseLevel       = mF+"_ResponseLevel4";
+        var Location            = mF+"_Location";
+        var Machine             = mF+"_MachineName";
+        var TicketSource        = mF+"_TicketSource1";
+        var classFind           = ".treeLabel";
+    }
+
     /*setup temporary holding variables for the canned Answers*/
     if (summaryCAs) {
         /*convert string to array*/
@@ -65,12 +102,7 @@ $(document).ready(function() {
             text: cannedAnswersSummary[i]
         }));
     }
-    /* Add a class name to the option in the select sa that a chack for when they are clicked can be performed NOT USED
-    $('#cannedAnswers option').each(function() {
-       $(this).addClass("ddOption"); 
-    });*/
-    
-    
+        
     /*if there are additional canned answers saved then add them to the drop down list*/
     if(summaryArray.length){
         /*add the values from the additional canned answers */
@@ -159,24 +191,31 @@ $(document).ready(function() {
     
     /*default button pressed so add the default values to the related fields*/
     $('#setDefaultValues').click(function() {
-        $('#mainForm-_ImpactDisplay').trigger('click'); 
-        $('#mainForm-_IncidentUrgencyDisplay').trigger('click');
+        $(Impact+sFix1).trigger('click'); 
+        $(Urgency+sFix1).trigger('click');
         $('#mainForm-_SuggestedGroupDisplay').trigger('click');
-        $('#mainForm-_TicketSource1Display').trigger('click');
-        $(this).clickDefault(impact, '#mainForm-_ImpactDisplay', '#mainForm-_Impact-Dropdown');     
-        $(this).clickDefault(urgency, '#mainForm-_IncidentUrgencyDisplay', '#mainForm-_IncidentUrgency-Dropdown');       
-        $('#mainForm-_Location').val(location);        
-        $(this).clickDefault(suggestedGroup, '#mainForm-_SuggestedGroupDisplay', '#mainForm-_SuggestedGroup-Dropdown');        
-        $(this).clickDefault(ticketSource,'#mainForm-_TicketSource1Display','#mainForm-_TicketSource1-Dropdown'); 
-        $('#mainForm-ResponseLevelTitleDisplay').trigger('click');       
-        $(this).clickDefault(responseLevel, '#mainForm-ResponseLevelTitleDisplay', '#mainForm-ResponseLevelTitle-Dropdown');
-        $('#mainForm-RaiseUserTitleDisplay').val(raisedUser);
-        $('#mainForm-RaiseUserTitleDisplay').focus();
+        $(TicketSource+sFix1).trigger('click');
+        $(this).clickDefault(impact, Impact+sFix2);     
+        $(this).clickDefault(urgency, Urgency+sFix2);       
+        $(Location).val(location);        
+        $(this).clickDefault(suggestedGroup, '#mainForm-_SuggestedGroup-Dropdown');        
+        $(this).clickDefault(ticketSource, TicketSource+sFix2); 
+        $(ResponseLevel+sFix1).trigger('click');       
+        $(this).clickDefault(responseLevel, ResponseLevel+sFix2);
+        $(RaiseUser+sFix1).val(raisedUser);
+        $(RaiseUser+sFix1).focus();
   });
     
-    $.fn.clickDefault = function(ddValue, displayDiv, dropdownDiv) {
-        $(dropdownDiv).find(".dropdownItem:contains('"+ddValue+"')").trigger('click');
-        var Value = $(dropdownDiv).find(".dropdownItem:contains('"+ddValue+"')").attr("value");                 
+    $.fn.clickDefault = function(ddValue, dropdownDiv, className) {
+        className = className || ".dropdownItem";
+        console.log("className = "+(className));
+        $(dropdownDiv).find(className+":contains('"+ddValue+"')").trigger('click');
+        if(className !== ".dropdownItem") {
+            var Value = $(dropdownDiv).find(className+":contains('"+ddValue+"')").parent().attr("value");  
+        }else{
+            var Value = $(dropdownDiv).find(className+":contains('"+ddValue+"')").attr("value"); 
+        }
+        console.log(dropdownDiv);
         console.log(Value);
         console.log(ddValue);    
     }
@@ -197,18 +236,10 @@ $(document).ready(function() {
         var textAns = $('#cannedAnswers option:selected').text();
         var valueAns = $('#cannedAnswers option:selected').val();
         //set the values of the fields equal to the drop down canned answers
-        $('#mainForm-Description').val(valueAns);
-        $('#mainForm-Title').val(textAns);
+        $(Details).val(valueAns);
+        $(Summary).val(textAns);
         // get the value of the index of the selected dropdown
-        var Index = $('#cannedAnswers').prop('selectedIndex');
-        //force a click on the Category level 1 Display to force a population of the dropdown div
-        $('#mainForm-_IncidentCategoryLevel11Display').trigger('click');
-        //send the canned answer and dropdown identifier and populate the value by simulating a click on the dropdown
-        $(this).clickDefault(cannedAnswersCat1[Index-1], "#mainForm-_IncidentCategoryLevel11Display", "#mainForm-_IncidentCategoryLevel11-Dropdown");
-        //force a click on the Category level 2 Display to force a population of the dropdown div
-        $('#mainForm-_IncidentCategoryLevel21Display').trigger('click');
-        //send the canned answer and dropdown identifier and populate the value by simulating a click on the dropdown
-        $(this).clickDefault(cannedAnswersCat2[Index-1],"#mainForm-_IncidentCategoryLevel21Display", "#mainForm-_IncidentCategoryLevel21-Dropdown");                
+        var Index = $('#cannedAnswers').prop('selectedIndex');               
     });
     
     $('#cannedAnswers').click(function() { 
@@ -216,10 +247,12 @@ $(document).ready(function() {
         var Index = $('#cannedAnswers').prop('selectedIndex');
         console.log(Index);
         if(Index !== 0){
-            $('#mainForm-_IncidentCategoryLevel11Display').trigger('click');
-            $(this).clickDefault(cannedAnswersCat1[Index-1], "#mainForm-_IncidentCategoryLevel11Display", "#mainForm-_IncidentCategoryLevel11-Dropdown");
-            $('#mainForm-_IncidentCategoryLevel21Display').trigger('click');
-            $(this).clickDefault(cannedAnswersCat2[Index-1],"#mainForm-_IncidentCategoryLevel21Display", "#mainForm-_IncidentCategoryLevel21-Dropdown"); 
+            if($(Option1+sFix1).val().length == 0){
+                $(Option1+sFix1).trigger('click'); 
+                $(this).clickDefault(cannedAnswersCat1[Index-1], Option1+sFix2, classFind);
+            }            
+            $(Option2+sFix1).trigger('click');
+            $(this).clickDefault(cannedAnswersCat2[Index-1], Option2+sFix2); 
         }
     });
     
@@ -256,10 +289,10 @@ $(document).ready(function() {
    /* copy the values that have been typed into the form and copy them to the canned answers form
       the values can then be saved as a canned answer */
    $('#copyCannedAnswer').click(function() {
-       $("#addCannedSummary").val($("#mainForm-Title").val());
-       $("#addCannedDetail").val($("#mainForm-Description").val());
-       $("#addCannedCat1").val($("#mainForm-_IncidentCategoryLevel11Display").val());
-       $("#addCannedCat2").val($("#mainForm-_IncidentCategoryLevel21Display").val());
+       $("#addCannedSummary").val($(Summary).val());
+       $("#addCannedDetail").val($(Details).val());
+       $("#addCannedCat1").val($(Option1+sFix1).val());
+       $("#addCannedCat2").val($(Option2+sFix1).val());
    });
    
    /* save the canned answer and also add the new canned answer to the dropdown box.*/
@@ -339,7 +372,6 @@ $(document).ready(function() {
                        return ( list !== category2Description[index]);
                    });
                    /*remove the option from the dropdown list*/
-                   alert(item);
                    $("#cannedAnswers option:contains('"+item+"')").remove();
                });
                GM_setValue("summary", JSON.stringify(summaryArray));
@@ -357,16 +389,16 @@ $(document).ready(function() {
     
    /*click on the machineName and open Lansweeper searching for username
    depends if logged on Behalf of user name is entered */
-   $('#mainForm-_MachineName').click(function() {
+   $(Machine).click(function() {
        if(GM_getValue('machineName', "").length) {
-           $('#mainForm-_MachineName').val(GM_getValue('machineName', ""));
+           $(Machine).val(GM_getValue('machineName', ""));
            GM_setValue('machineName', "");
        }else{
-           if(linkToLanSweeper !== "" && $('#mainForm-_MachineName').val() == ""){
+           if(linkToLanSweeper !== "" && $(Machine).val() == ""){
                if($('#mainForm-_LoggedOnBehalfOfDisplay').val() !== "") {
                    window.open(linkToLanSweeper.replace("<<userName>>", $('#mainForm-_LoggedOnBehalfOfDisplay').val()), '_blank');
                }else{
-                   window.open(linkToLanSweeper.replace("<<userName>>", $('#mainForm-RaiseUserTitleDisplay').val()), '_blank');
+                   window.open(linkToLanSweeper.replace("<<userName>>", $(RaiseUser+sFix1).val()), '_blank');
                }
            }
        }

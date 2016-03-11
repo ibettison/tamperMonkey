@@ -39,18 +39,20 @@
 <img src="https://raw.githubusercontent.com/ibettison/tamperMonkey/master/download.PNG" alt="">
 </li>
 <li>Now in <a href="https://tampermonkey.net/">TamperMonkey</a> go to Dashboard/Utilities and import from the GitHub location on you Desktop</li>
-<li>Type the following in the URL prompt File://H:/GitHub/TamperMonkey/setUpButtons.user.js (this is the default desktop app location for GitHub repositories)</li>
-<li>You now should have an option to install the script - go ahead and click the Install button</li>
-<li>The last thing you need to do now is change the path to the HeaderDetails file you edited earlier. Do this by selecting Dashboard/Installed userscripts and click on the script that has now been installed.</li>
+<li>Type the following in the URL prompt <strong>File://H:/GitHub/TamperMonkey/setUpButtons.user.js</strong> (this is the default desktop app location for GitHub repositories)</li>
+<li>You now should have an option to install the script - go ahead and click the <strong>Install button</strong>
+</li>
+<li>The last thing you need to do now is change the path to the Header Details file you edited earlier. Do this by selecting <em>Dashboard/Installed userscripts</em> and click on the script that has now been installed.</li>
 <li>The script has header details at the top of it and you need to change the path to the following...</li>
 </ul>
 
 <h3>
-<a id="change-this-path" class="anchor" href="#change-this-path" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Change this path</h3>
+<a id="change-this-path-in-setupbuttons" class="anchor" href="#change-this-path-in-setupbuttons" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Change this path in <strong>setUpButtons</strong>
+</h3>
 
 <p>// <a href="https://github.com/require" class="user-mention">@require</a>      <a href="https://raw.githubusercontent.com/ibettison/tamperMonkey/master/headerDetails.user.js">https://raw.githubusercontent.com/ibettison/tamperMonkey/master/headerDetails.user.js</a>
 to
-// <a href="https://github.com/require" class="user-mention">@require</a>      <a href="https://raw.githubusercontent.com/**%7ByourGitHubId%7D**/tamperMonkey/master/headerDetails.user.js">https://raw.githubusercontent.com/**{yourGitHubId}**/tamperMonkey/master/headerDetails.user.js</a></p>
+// <a href="https://github.com/require" class="user-mention">@require</a>      <a href="https://raw.githubusercontent.com/%7ByourGitHubId%7D/tamperMonkey/master/headerDetails.user.js">https://raw.githubusercontent.com/{yourGitHubId}/tamperMonkey/master/headerDetails.user.js</a></p>
 
 <h3>
 <a id="how-do-i-keep-this-up-to-date" class="anchor" href="#how-do-i-keep-this-up-to-date" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How do I keep this up to date</h3>
@@ -60,17 +62,19 @@ to
 <h3>
 <a id="how-do-i-change-the-header-details" class="anchor" href="#how-do-i-change-the-header-details" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How do I change the Header Details</h3>
 
-<p>You need to go into <a href="https://github.com/">GitHub</a> on the internet and select the file headerDetails.user.js, there is a pencil icon at the top of the viewing window that allows you to edit the file. To save the file you need to type a description as to why the file was changed then you can click the Commit Changes button.</p>
+<p>You need to go into <a href="https://github.com/">GitHub</a> on the internet and select the file <em>headerDetails.user.js</em>, there is a <strong>pencil icon</strong> at the top of the viewing window that allows you to edit the file. To save the file you need to type a description as to why the file was changed then you can click the <em>Commit Changes button</em>.</p>
 
 <h3>
 <a id="ive-made-additional-changes-to-the-header-details-but-there-not-showing-when-i-add-a-canned-answer" class="anchor" href="#ive-made-additional-changes-to-the-header-details-but-there-not-showing-when-i-add-a-canned-answer" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>I've made additional changes to the Header Details but there not showing when I add a Canned Answer</h3>
 
-<p>TamperMonkey Caches the external files it uses within the scripts and you need to change a setting in the Setting options to make TamperMonkey re-cache the external Header Details file. In Settings find the <em><strong>Externals</strong></em> option and change the setting to 'Always'.</p>
+<p>TamperMonkey Caches the external files it uses within the scripts and you need to change a setting in the Settings options to make TamperMonkey re-cache the external Header Details file. In Settings find the <em><strong>Externals</strong></em> option and change the setting to <em>'Always'</em>.</p>
 
-<p>Run the script once then change this setting back to 'Every Week' or 'Every Month' or 'Never' the Externals will only change if you change the Header Details.</p>
+<p>Run the script once then change this setting back to <em>'Every Week'</em> or <em>'Every Month'</em> or <em>'Never'</em> the Externals will only change if you change the Header Details.</p>
 
 <h3>
 <a id="everything-is-working-but-how-do-i-use-the-script" class="anchor" href="#everything-is-working-but-how-do-i-use-the-script" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Everything is working but how do I use the script</h3>
+
+<p>&lt;&gt;</p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/ibettison/tamperMonkey">Tampermonkey Scripts</a> is maintained by <a href="https://github.com/ibettison">ibettison</a>.</span>

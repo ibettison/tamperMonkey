@@ -89,7 +89,32 @@ To save the file you need to type a description as to why the file was changed t
 <h2>
 <a id="7-everything-is-working-but-how-do-i-use-the-script-in-nuservice" class="anchor" href="#7-everything-is-working-but-how-do-i-use-the-script-in-nuservice" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>7. Everything is working but how do I use the script in NUService</h2>
 
-<p>&lt;&gt;</p>
+<p>The script runs on the two pages within NUService the new <em>Incident page</em> and the new Service <em>Request page</em>, it is obvious that the script is running on these pages because new web form objects are shown in the content header location.
+<img src="https://raw.githubusercontent.com/ibettison/tamperMonkey/master/Header.PNG" alt="Click to Edit "></p>
+
+<h3>
+<a id="71-default-button" class="anchor" href="#71-default-button" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>7.1 Default Button</h3>
+
+<p>Pressing the default button as it may suggest fills out some of the fields with default information which it gets from the header details file. The list of default information for a new Incident is as follows:</p>
+
+<ul>
+<li>Raise User</li>
+<li>Suggested Group</li>
+<li>Impact</li>
+<li>Urgency</li>
+<li>Response Level</li>
+<li>Location</li>
+<li>Ticket Source
+For a new Service Request the default Information is as follows:</li>
+<li>Raise User</li>
+<li>Impact</li>
+<li>Urgency</li>
+<li>Response Level</li>
+<li>Location</li>
+<li>Ticket Source
+<em><strong>There is a requirement to press the Default button a number of times. This is because some of the drop down boxes are populated in real time depending on the values of other drop down boxes. (Press the default button 3 times with a pause in between)</strong></em>
+</li>
+</ul>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/ibettison/tamperMonkey">Tampermonkey Scripts</a> is maintained by <a href="https://github.com/ibettison">ibettison</a>.</span>

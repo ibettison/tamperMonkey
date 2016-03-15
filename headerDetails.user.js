@@ -1,6 +1,6 @@
     /*default values for new incident creation */
-    var raisedUser              = "nib8";
-    var raisedUserFull          = "Ian Bettison";
+    var raisedUser              = "ndw28";
+    var raisedUserFull          = "David Whiteoak";
     var location                = "Clinical Platforms";
     var impact                  = "Low";
     var urgency                 = "Low";
@@ -10,8 +10,8 @@
     var linkToLanSweeper        = "http://crf-psrv:81/user.aspx?username=<<userName>>&userdomain=CAMPUS";
     /*variables for the signOff signature*/
     var FMSLocation             = "Clinical Research Platforms";
-    var FMSTelephone            = "T: 0191 20 81271";
-    var FMSEmail                = "E: ian.bettison@ncl.ac.uk";
+    var FMSTelephone            = "T: 0191 20 81280";
+    var FMSEmail                = "E: david.whiteoak@ncl.ac.uk";
     var signOff                 = "\n\nThanks for your attention,\n\n"+raisedUserFull+"\n"+FMSLocation+"\n"+FMSTelephone+"\n"+FMSEmail+"\n";
 
     /*setup the default responses to your canned answers here*/

@@ -10,7 +10,7 @@
     var linkToLanSweeper        = "http://crf-psrv:81/user.aspx?username=<<userName>>&userdomain=CAMPUS";
     /*variables for the signOff signature*/
     var FMSLocation             = "Clinical Research Platforms";
-    var FMSTelephone            = "T: 0191 20 81271";
+    var FMSTelephone            = "T: 0191 20 84650";
     var FMSEmail                = "E: ian.bettison@ncl.ac.uk";
     var signOff                 = "\n\nThanks for your attention,\n\n"+raisedUserFull+"\n"+FMSLocation+"\n"+FMSTelephone+"\n"+FMSEmail+"\n";
 

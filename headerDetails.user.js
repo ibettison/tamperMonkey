@@ -1,6 +1,6 @@
     /*default values for new incident creation */
-    var raisedUser              = "nib8";
-    var raisedUserFull          = "Ian Bettison";
+    var raisedUser              = "ndw28";
+    var raisedUserFull          = "David Whiteoak";
     var location                = "Clinical Platforms";
     var impact                  = "Low";
     var urgency                 = "Low";

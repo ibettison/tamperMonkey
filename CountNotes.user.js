@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         CountNotes
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @description  Count the number of notes in NUService
 // @require      http://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js
 // @author       Ian Bettison 2017

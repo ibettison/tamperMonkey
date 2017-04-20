@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         setUpButtons
 // @namespace    http://tampermonkey.net/
-// @version      0.9
+// @version      0.9.1
 // @require      http://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js
 // the below link is the default details contained in a hosted file. 
 // @require      https://raw.githubusercontent.com/ibettison/tamperMonkey/master/headerDetails.user.js
@@ -147,7 +147,7 @@ $(document).ready(function() {
         //set the values of the fields equal to the drop down canned answers
         $("textarea").val(valueAns);
         // get the value of the index of the selected dropdown
-        var Index = $('#cannedAnswers').prop('selectedIndex');
+        var Index = $('#cannedAnswers').prop('selectedIndex');               
     });
     
     $('#cannedAnswers').click(function() { 

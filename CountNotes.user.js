@@ -23,17 +23,36 @@ $(document).ready(function() {
     /*count the number of rows in the table*/
     var rowCount = $('#mainForm-NotesTable >tbody >tr').length;
    
+    /*check if there are any attachments*/
+    if($('#_btn_25').length) {
+        $('#_btn_14').trigger('click');
+    }
+    
+    var attachments = $('#mainForm-AttachmentsTable >tbody >tr').length;
+    
     /*show the count for the number of notes*/
     if(rowCount > 0 ) {
-        $('#contentHeader').append($("<div id='showNotes' style='cursor: pointer; position: relative; padding: 3px 0; color: red;'>" + 
+        $('#contentHeader').append($("<div id='showNotes' style='float: left; cursor: pointer; position: relative; padding: 3px 0; color: red;'>" + 
            "<img src='https://raw.githubusercontent.com/ibettison/CannedAnswersImages/master/note-taking_icon.jpg' alt='"+rowCount+" note(s)' title='"+rowCount+" note(s)' />"+
-           "<div id='showNotes-background' style='position: absolute; top: -5px; left: 415px;'>"+rowCount+"</div></div>"));
+           "<div id='showNotes-background' style=' float: left; position: absolute; top: -5px; left: 22px;'>"+rowCount+"</div></div>"));
+    }
+    
+    if(attachments > 0 ) {
+        $('#contentHeader').append($("<div id='showAttachments' style=' float: left; cursor: pointer; position: relative; padding: 3px 0; color: red;'>" + 
+           "<img src='https://raw.githubusercontent.com/ibettison/CannedAnswersImages/master/Attach-icon.png' style='width: 22px; height: 22px;' alt='"+attachments+" attachment(s)' title='"+attachments+" attachment(s)' />"+
+           "<div id='showAttachments-background' style='position: absolute; top: -5px; left: 22px;'>"+attachments+"</div></div>"));
     }
     
     $('#showNotes').click(function() {
         $('#mainForm-NotesTable >tBody >tr:first').addClass('listBodyRowActive');
         $('#mainForm-NotesTable').addClass('listFocused');
         $('#mainForm-NotesTable .listBodyCell').trigger('click');
+    });
+    
+    $('#showAttachments').click(function() {
+        $('#mainForm-AttachmentsTable >tBody >tr:first').addClass('listBodyRowActive');
+        $('#mainForm-AttachmentsTable').addClass('listFocused');
+        $('#mainForm-AttachmentsTable .listBodyCell').trigger('click');
     });
     
 });

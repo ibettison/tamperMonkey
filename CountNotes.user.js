@@ -5,6 +5,8 @@
 // @description  Count the number of notes in NUService
 // @require      http://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js
 // @author       Ian Bettison
+// @updateURL    https://raw.githubusercontent.com/ibettison/tamperMonkey/master/CountNotes.user.js
+// @downloadURL  https://raw.githubusercontent.com/ibettison/tamperMonkey/master/CountNotes.user.js
 // @match        https://nuservice.ncl.ac.uk/LDSD.WebAccess.Integrated/wd/object/open.rails?class_name=RequestManagement*
 // @match        https://nuservice.ncl.ac.uk/LDSD.WebAccess.Integrated/wd/object/open.rails?class_name=IncidentManagement*
 // @grant        GM_setValue
